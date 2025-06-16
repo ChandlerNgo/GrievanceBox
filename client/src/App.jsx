@@ -38,19 +38,20 @@ function App() {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      background: "#f9f9fb",
+      background: "#fffafc", // pastel background
       fontFamily: "'Segoe UI', sans-serif",
     }}>
       <div style={{
-        background: "white",
+        background: "#fef6fb", // pastel pink card
         padding: "30px",
         borderRadius: "20px",
         boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
         width: "100%",
-        maxWidth: "400px",
+        maxWidth: "420px",
         textAlign: "center",
+        border: "2px solid #ffe0f0"
       }}>
-        <h2 style={{ marginBottom: "20px", color: "#333" }}>📮 Submit a Complaint</h2>
+        <h2 style={{ marginBottom: "20px", color: "#d65f9a" }}>🎀 Submit a Complaint</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -62,9 +63,10 @@ function App() {
               width: "100%",
               padding: "12px",
               borderRadius: "10px",
-              border: "1px solid #ccc",
+              border: "1px solid #ffd6ea",
               marginBottom: "15px",
-              fontSize: "16px"
+              fontSize: "16px",
+              backgroundColor: "#fff0f6"
             }}
           />
           <textarea
@@ -77,16 +79,17 @@ function App() {
               width: "100%",
               padding: "12px",
               borderRadius: "10px",
-              border: "1px solid #ccc",
+              border: "1px solid #ffd6ea",
               marginBottom: "15px",
               fontSize: "16px",
+              backgroundColor: "#fff0f6",
               resize: "none"
             }}
           />
           <button
             type="submit"
             style={{
-              backgroundColor: "#6c63ff",
+              backgroundColor: "#ffb3c6",
               color: "white",
               border: "none",
               padding: "12px 20px",
@@ -95,14 +98,18 @@ function App() {
               cursor: "pointer",
               transition: "background 0.3s"
             }}
-            onMouseOver={(e) => (e.target.style.backgroundColor = "#5852d6")}
-            onMouseOut={(e) => (e.target.style.backgroundColor = "#6c63ff")}
+            onMouseOver={(e) => (e.target.style.backgroundColor = "#f99db4")}
+            onMouseOut={(e) => (e.target.style.backgroundColor = "#ffb3c6")}
           >
             Submit
           </button>
         </form>
         {status && (
-          <p style={{ marginTop: "15px", color: "#555", fontWeight: "500" }}>
+          <p style={{
+            marginTop: "15px",
+            color: "#bf4f78",
+            fontWeight: "500"
+          }}>
             {status}
           </p>
         )}
