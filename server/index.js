@@ -19,6 +19,7 @@ app.use(bodyParser.json());
 
 const WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 const ALLOWED_USERNAME = process.env.ALLOWED_USERNAME;
+const DISCORD_USER = process.env.DISCORD_USER;
 
 // GET /
 app.get("/", (req, res) => {
@@ -39,7 +40,7 @@ app.post("/api/submit", async (req, res) => {
 
   try {
     await axios.post(WEBHOOK_URL, {
-      content: `📝 New Complaint\n👤 From: ${username}\n💬 Message: ${complaint}`
+      content: `@${DISCORD_USER} hello`
     });
 
     res.status(200).send("Complaint sent to Discord!");
