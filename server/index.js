@@ -40,7 +40,7 @@ app.post("/api/submit", async (req, res) => {
 
   try {
     await axios.post(WEBHOOK_URL, {
-      content: `@${DISCORD_USER} hello`
+      content: `<@&${DISCORD_USER}> ${complaint}`
     });
 
     res.status(200).send("Complaint sent to Discord!");
