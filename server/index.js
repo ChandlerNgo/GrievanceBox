@@ -1,8 +1,42 @@
-const express = require('express')
-const app = express()
+const express = require("express");
+const serverless = require("serverless-http");
+const bodyParser = require("body-parser");
+const axios = require("axios");
+require("dotenv").config();
 
-app.use("/", (req, res) => {
-    res.send("Server is running");
+const app = express();
+app.use(bodyParser.json());
+
+const WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
+const ALLOWED_USERNAME = process.env.ALLOWED_USERNAME;
+
+// GET /
+app.get("/", (req, res) => {
+  res.send("Server is running");
 });
 
-app.listen(5000, console.log("Server started on PORT 5000"))
+// POST /api/submit
+app.post("/api/submit", async (req, res) => {
+  const { username, complaint } = req.body;
+
+  if (!username || !complaint) {
+    return res.status(400).send("Missing username or complaint");
+  }
+
+  if (ALLOWED_USERNAME && username !== ALLOWED_USERNAME) {
+    return res.status(403).send("Unauthorized user");
+  }
+
+  try {
+    await axios.post(WEBHOOK_URL, {
+      content: `📝 New Complaint\n👤 From: ${username}\n💬 Message: ${complaint}`
+    });
+
+    res.status(200).send("Complaint sent to Discord!");
+  } catch (err) {
+    console.error("Error sending to Discord:", err);
+    res.status(500).send("Failed to send complaint");
+  }
+});
+
+module.exports = serverless(app);
