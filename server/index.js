@@ -1,9 +1,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const axios = require("axios");
 require("dotenv").config();
 
 const app = express();
+
+app.use(cors());
+
+app.use(
+  cors({
+    origin: "https://chandlers-grievance-box.vercel.app", // allow only your frontend
+    methods: ["GET", "POST"]
+  })
+);
+
 app.use(bodyParser.json());
 
 const WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
