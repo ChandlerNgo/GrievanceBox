@@ -1,5 +1,4 @@
 const express = require("express");
-const serverless = require("serverless-http");
 const bodyParser = require("body-parser");
 const axios = require("axios");
 require("dotenv").config();
@@ -39,4 +38,4 @@ app.post("/api/submit", async (req, res) => {
   }
 });
 
-module.exports = serverless(app);
+app.listen(5000, console.log("Server started on PORT 5000"))
