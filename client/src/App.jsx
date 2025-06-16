@@ -1,35 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [username, setUsername] = useState("");
+  const [complaint, setComplaint] = useState("");
+  const [status, setStatus] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("Sending...");
+
+    try {
+      const res = await fetch("https://grievance-box-server.vercel.app/api/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, complaint })
+      });
+
+      if (res.ok) {
+        setStatus("✅ Complaint submitted successfully!");
+        setUsername("");
+        setComplaint("");
+      } else {
+        const text = await res.text();
+        setStatus(`❌ Error: ${text}`);
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus("❌ Submission failed");
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div style={{ maxWidth: "400px", margin: "40px auto", fontFamily: "sans-serif" }}>
+      <h2>Submit a Complaint</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Your name"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
+        />
+        <textarea
+          placeholder="Your complaint"
+          value={complaint}
+          onChange={(e) => setComplaint(e.target.value)}
+          required
+          rows={5}
+          style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
+        />
+        <button type="submit" style={{ padding: "10px 20px" }}>
+          Submit
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      </form>
+      {status && <p style={{ marginTop: "10px" }}>{status}</p>}
+    </div>
+  );
 }
 
-export default App
+export default App;
